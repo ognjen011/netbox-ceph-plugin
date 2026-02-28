@@ -1,0 +1,4 @@
+name,description
+prod-ceph-01,Production Ceph cluster DC-West
+prod-ceph-02,Production Ceph cluster DC-East
+dev-ceph-01,Development / staging cluster

@@ -1,0 +1,13 @@
+name,cluster,device,osd_type,encrypted,status,description
+osd.0,prod-ceph-01,storage-01,nvme,true,active,
+osd.1,prod-ceph-01,storage-01,nvme,true,active,
+osd.2,prod-ceph-01,storage-01,nvme,true,active,
+osd.3,prod-ceph-01,storage-01,hdd,false,active,
+osd.4,prod-ceph-01,storage-01,hdd,false,active,
+osd.5,prod-ceph-01,storage-01,hdd,false,active,
+osd.6,prod-ceph-01,storage-02,nvme,true,active,
+osd.7,prod-ceph-01,storage-02,nvme,true,active,
+osd.8,prod-ceph-01,storage-02,hdd,false,active,
+osd.9,prod-ceph-01,storage-02,hdd,false,down,SMART errors reported on /dev/sdc
+osd.10,prod-ceph-01,storage-03,nvme,true,active,
+osd.11,prod-ceph-01,storage-03,hdd,false,out,"Permanently failed, pending replacement"

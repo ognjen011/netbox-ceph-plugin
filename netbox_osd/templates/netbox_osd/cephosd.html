@@ -1,0 +1,117 @@
+{% extends 'generic/object.html' %}
+{% load helpers %}
+{% load render_table from django_tables2 %}
+
+{% block content %}
+<div class="row mb-3">
+
+  {# Left column — OSD details #}
+  <div class="col col-md-6">
+    <div class="card">
+      <h5 class="card-header">OSD Details</h5>
+      <div class="card-body">
+        <table class="table table-hover attr-table">
+          <tr>
+            <th scope="row">Cluster</th>
+            <td>
+              {% if object.cluster %}
+                <a href="{{ object.cluster.get_absolute_url }}">{{ object.cluster }}</a>
+              {% else %}
+                <span class="text-muted">—</span>
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Name</th>
+            <td>{{ object.name }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Device (host)</th>
+            <td>
+              {% if object.device %}
+                <a href="{{ object.device.get_absolute_url }}">{{ object.device }}</a>
+              {% else %}
+                <span class="text-muted">—</span>
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Rack</th>
+            <td>
+              {% if object.rack %}
+                <a href="{{ object.rack.get_absolute_url }}">{{ object.rack }}</a>
+              {% else %}
+                <span class="text-muted">—</span>
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Site</th>
+            <td>
+              {% if object.site %}
+                <a href="{{ object.site.get_absolute_url }}">{{ object.site }}</a>
+              {% else %}
+                <span class="text-muted">—</span>
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">OSD Type</th>
+            <td>
+              {% badge object.get_osd_type_display bg_color=object.get_osd_type_color %}
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Encrypted</th>
+            <td>
+              {% if object.encrypted %}
+                <span class="text-success"><i class="mdi mdi-lock"></i> Yes</span>
+              {% else %}
+                <span class="text-muted"><i class="mdi mdi-lock-open-outline"></i> No</span>
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Status</th>
+            <td>
+              {% badge object.get_status_display bg_color=object.get_status_color %}
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    {% if object.description %}
+    <div class="card mt-3">
+      <h5 class="card-header">Description</h5>
+      <div class="card-body">
+        {{ object.description | markdown }}
+      </div>
+    </div>
+    {% endif %}
+
+    {% include 'inc/panels/tags.html' %}
+    {% include 'inc/panels/custom_fields.html' %}
+  </div>
+
+  {# Right column — Status notes #}
+  <div class="col col-md-6">
+    <div class="card">
+      <h5 class="card-header d-flex justify-content-between align-items-center">
+        Status Notes
+        <a href="{% url 'plugins:netbox_osd:cephosdsstatusnote_add' %}?osd={{ object.pk }}"
+           class="btn btn-sm btn-success">
+          <i class="mdi mdi-plus-thick"></i> Add Note
+        </a>
+      </h5>
+      <div class="card-body table-responsive">
+        {% render_table notes_table %}
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% include 'inc/panels/journal.html' %}
+{% include 'inc/panels/changelog.html' %}
+{% endblock %}

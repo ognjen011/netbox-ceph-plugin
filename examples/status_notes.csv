@@ -1,0 +1,4 @@
+osd_device,osd_name,status,reason,resolved
+storage-02,osd.9,down,"SMART errors on /dev/sdc — ticket #4421 opened",false
+storage-03,osd.11,out,"Drive physically failed. Replacement ordered. ETA 2024-12-01",false
+storage-03,osd.11,maintenance,"Pulled from cluster for RMA — waiting on hardware",false

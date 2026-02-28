@@ -1,0 +1,75 @@
+{% extends 'generic/object.html' %}
+{% load helpers %}
+{% load render_table from django_tables2 %}
+
+{% block content %}
+<div class="row mb-3">
+
+  {# Left — Cluster summary #}
+  <div class="col col-md-4">
+    <div class="card">
+      <h5 class="card-header">Cluster Details</h5>
+      <div class="card-body">
+        <table class="table table-hover attr-table">
+          <tr>
+            <th scope="row">Name</th>
+            <td>{{ object.name }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Nodes</th>
+            <td>{{ object.node_count }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Total OSDs</th>
+            <td>{{ object.osd_count }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    {% if object.description %}
+    <div class="card mt-3">
+      <h5 class="card-header">Description</h5>
+      <div class="card-body">
+        {{ object.description | markdown }}
+      </div>
+    </div>
+    {% endif %}
+
+    {% include 'inc/panels/tags.html' %}
+    {% include 'inc/panels/custom_fields.html' %}
+  </div>
+
+  {# Right — Nodes in this cluster #}
+  <div class="col col-md-8">
+    <div class="card">
+      <h5 class="card-header">Nodes (Hosts)</h5>
+      <div class="card-body table-responsive">
+        {% render_table nodes_table %}
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{# Full-width — All OSDs in this cluster #}
+<div class="row mb-3">
+  <div class="col">
+    <div class="card">
+      <h5 class="card-header d-flex justify-content-between align-items-center">
+        OSDs
+        <a href="{% url 'plugins:netbox_osd:cephosd_add' %}?cluster={{ object.pk }}"
+           class="btn btn-sm btn-success">
+          <i class="mdi mdi-plus-thick"></i> Add OSD
+        </a>
+      </h5>
+      <div class="card-body table-responsive">
+        {% render_table osds_table %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include 'inc/panels/journal.html' %}
+{% include 'inc/panels/changelog.html' %}
+{% endblock %}

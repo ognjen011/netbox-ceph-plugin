@@ -1,0 +1,40 @@
+# Example YAML file for bulk OSD import via the API script (import_yaml.py)
+# All device and cluster names must already exist in NetBox.
+
+cluster: prod-ceph-01
+
+osds:
+  - name: osd.0
+    device: storage-01
+    osd_type: nvme
+    encrypted: true
+    status: active
+    description: ""
+
+  - name: osd.1
+    device: storage-01
+    osd_type: nvme
+    encrypted: true
+    status: active
+    description: ""
+
+  - name: osd.2
+    device: storage-01
+    osd_type: hdd
+    encrypted: false
+    status: down
+    description: "SMART errors on /dev/sdb"
+
+  - name: osd.3
+    device: storage-02
+    osd_type: nvme
+    encrypted: true
+    status: active
+    description: ""
+
+  - name: osd.4
+    device: storage-02
+    osd_type: hdd
+    encrypted: false
+    status: out
+    description: "Permanently failed — replacement pending"
