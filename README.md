@@ -1,4 +1,4 @@
-# netbox-osd-plugin
+# netbox-ceph-plugin
 
 A NetBox plugin for tracking Ceph OSDs across your storage infrastructure.
 
