@@ -10,6 +10,7 @@ from .forms import (
     CephClusterFilterForm,
     CephClusterImportForm,
     CephOSDForm,
+    CephOSDBulkEditForm,
     CephOSDFilterForm,
     CephOSDImportForm,
     CephOSDStatusNoteForm,
@@ -120,6 +121,7 @@ class CephOSDBulkEditView(generic.BulkEditView):
     queryset = CephOSD.objects.prefetch_related("tags")
     filterset = CephOSDFilterSet
     table = CephOSDTable
+    form = CephOSDBulkEditForm
 
 
 @register_model_view(CephOSD, "bulk_delete")

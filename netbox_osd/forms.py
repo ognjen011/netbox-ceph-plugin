@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.timezone import now
-from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm, NetBoxModelImportForm
+from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm, NetBoxModelImportForm, NetBoxModelBulkEditForm
 from dcim.models import Device, Rack, Site
 from utilities.forms.fields import (
     CommentField,
@@ -68,6 +68,30 @@ class CephOSDForm(NetBoxModelForm):
             "description",
             "tags",
         ]
+
+
+class CephOSDBulkEditForm(NetBoxModelBulkEditForm):
+    model = CephOSD
+
+    cluster = DynamicModelChoiceField(
+        queryset=CephCluster.objects.all(),
+        required=False,
+    )
+    osd_type = forms.ChoiceField(
+        choices=[("", "---------")] + list(OSDTypeChoices),
+        required=False,
+        label="OSD type",
+    )
+    status = forms.ChoiceField(
+        choices=[("", "---------")] + list(OSDStatusChoices),
+        required=False,
+    )
+    encrypted = forms.NullBooleanField(
+        required=False,
+        widget=forms.NullBooleanSelect(),
+    )
+
+    nullable_fields = ("cluster",)
 
 
 class CephOSDFilterForm(NetBoxModelFilterSetForm):
