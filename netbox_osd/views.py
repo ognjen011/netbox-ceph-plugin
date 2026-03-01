@@ -1,4 +1,5 @@
 from django.db.models import Count
+from django_tables2 import RequestConfig
 from netbox.views import generic
 from utilities.views import register_model_view
 from dcim.models import Device
@@ -33,7 +34,7 @@ class CephClusterView(generic.ObjectView):
             .distinct()
         )
         nodes_table = ClusterNodeTable(nodes_qs)
-        nodes_table.configure(request)
+        RequestConfig(request).configure(nodes_table)
 
         # OSDs in this cluster
         osds_qs = instance.osds.prefetch_related("device__rack", "device__site", "tags")

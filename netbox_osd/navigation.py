@@ -1,5 +1,4 @@
 from netbox.plugins.navigation import PluginMenu, PluginMenuButton, PluginMenuItem
-from utilities.choices import ButtonColorChoices
 
 
 menu = PluginMenu(
@@ -16,7 +15,6 @@ menu = PluginMenu(
                             link="plugins:netbox_osd:cephcluster_add",
                             title="Add Cluster",
                             icon_class="mdi mdi-plus-thick",
-                            color=ButtonColorChoices.GREEN,
                         ),
                     ),
                 ),
@@ -33,7 +31,6 @@ menu = PluginMenu(
                             link="plugins:netbox_osd:cephosd_add",
                             title="Add OSD",
                             icon_class="mdi mdi-plus-thick",
-                            color=ButtonColorChoices.GREEN,
                         ),
                     ),
                 ),
@@ -45,7 +42,6 @@ menu = PluginMenu(
                             link="plugins:netbox_osd:cephosdsstatusnote_add",
                             title="Add Note",
                             icon_class="mdi mdi-plus-thick",
-                            color=ButtonColorChoices.GREEN,
                         ),
                     ),
                 ),
