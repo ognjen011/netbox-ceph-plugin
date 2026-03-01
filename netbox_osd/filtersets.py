@@ -7,9 +7,20 @@ from .models import CephCluster, CephOSD, CephOSDStatusNote
 
 
 class CephClusterFilterSet(NetBoxModelFilterSet):
+    site_id = django_filters.ModelMultipleChoiceFilter(
+        queryset=Site.objects.all(),
+        label="Site (ID)",
+    )
+    site = django_filters.ModelMultipleChoiceFilter(
+        field_name="site__slug",
+        queryset=Site.objects.all(),
+        to_field_name="slug",
+        label="Site (slug)",
+    )
+
     class Meta:
         model = CephCluster
-        fields = ["name"]
+        fields = ["name", "site_id"]
 
     def search(self, queryset, name, value):
         return queryset.filter(name__icontains=value)

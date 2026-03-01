@@ -11,9 +11,17 @@ class CephCluster(NetBoxModel):
     """
 
     name = models.CharField(max_length=100, unique=True)
+    site = models.ForeignKey(
+        to="dcim.Site",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="ceph_clusters",
+        help_text="Datacenter (site) where this cluster resides",
+    )
     description = models.TextField(blank=True)
 
-    clone_fields = ["description"]
+    clone_fields = ["site", "description"]
 
     class Meta:
         ordering = ["name"]

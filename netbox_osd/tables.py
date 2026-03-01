@@ -9,6 +9,7 @@ from .models import CephCluster, CephOSD, CephOSDStatusNote
 class CephClusterTable(NetBoxTable):
     pk = ToggleColumn()
     name = tables.Column(linkify=True)
+    site = tables.Column(linkify=True)
     node_count = tables.Column(verbose_name="Nodes", orderable=False)
     osd_count = tables.Column(verbose_name="OSDs", orderable=False)
     tags = TagColumn(url_name="plugins:netbox_osd:cephcluster_list")
@@ -18,13 +19,14 @@ class CephClusterTable(NetBoxTable):
         fields = (
             "pk",
             "name",
+            "site",
             "node_count",
             "osd_count",
             "tags",
             "created",
             "last_updated",
         )
-        default_columns = ("pk", "name", "node_count", "osd_count", "tags")
+        default_columns = ("pk", "name", "site", "node_count", "osd_count", "tags")
 
     def render_node_count(self, record):
         return record.node_count

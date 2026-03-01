@@ -18,21 +18,32 @@ from .models import CephCluster, CephOSD, CephOSDStatusNote
 # ─── CephCluster ──────────────────────────────────────────────────────────────
 
 class CephClusterForm(NetBoxModelForm):
+    site = DynamicModelChoiceField(
+        queryset=Site.objects.all(),
+        required=False,
+        help_text="Datacenter (site) where this cluster resides",
+    )
     description = CommentField()
 
     fieldsets = (
-        FieldSet("name", name="Cluster"),
+        FieldSet("name", "site", name="Cluster"),
         FieldSet("description", name="Notes"),
         FieldSet("tags", name="Tags"),
     )
 
     class Meta:
         model = CephCluster
-        fields = ["name", "description", "tags"]
+        fields = ["name", "site", "description", "tags"]
 
 
 class CephClusterFilterForm(NetBoxModelFilterSetForm):
     model = CephCluster
+
+    site_id = DynamicModelChoiceField(
+        queryset=Site.objects.all(),
+        required=False,
+        label="Site",
+    )
     tag = TagFilterField(model)
 
 
@@ -199,17 +210,26 @@ class CephOSDStatusNoteFilterForm(NetBoxModelFilterSetForm):
 
 class CephClusterImportForm(NetBoxModelImportForm):
     """
-    CSV columns: name, description
+    CSV columns: name, site, description
+
+    - site: exact site slug (optional)
 
     Example:
-        name,description
-        prod-ceph-01,Production Ceph cluster
-        dev-ceph-01,Dev cluster
+        name,site,description
+        prod-ceph-01,dc1,Production Ceph cluster
+        dev-ceph-01,,Dev cluster
     """
+
+    site = CSVModelChoiceField(
+        queryset=Site.objects.all(),
+        to_field_name="slug",
+        required=False,
+        help_text="Site slug",
+    )
 
     class Meta:
         model = CephCluster
-        fields = ["name", "description"]
+        fields = ["name", "site", "description"]
 
 
 class CephOSDImportForm(NetBoxModelImportForm):

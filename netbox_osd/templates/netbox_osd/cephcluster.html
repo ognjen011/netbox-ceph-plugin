@@ -16,6 +16,16 @@
             <td>{{ object.name }}</td>
           </tr>
           <tr>
+            <th scope="row">Site</th>
+            <td>
+              {% if object.site %}
+                <a href="{{ object.site.get_absolute_url }}">{{ object.site }}</a>
+              {% else %}
+                <span class="text-muted">—</span>
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
             <th scope="row">Nodes</th>
             <td>{{ object.node_count }}</td>
           </tr>
