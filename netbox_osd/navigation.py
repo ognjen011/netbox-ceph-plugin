@@ -2,10 +2,10 @@ from netbox.plugins.navigation import PluginMenu, PluginMenuButton, PluginMenuIt
 
 
 menu = PluginMenu(
-    label="Ceph",
+    label="Storage",
     groups=(
         (
-            "Clusters",
+            "Ceph Clusters",
             (
                 PluginMenuItem(
                     link="plugins:netbox_osd:cephcluster_list",
