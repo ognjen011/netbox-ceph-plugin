@@ -20,7 +20,7 @@ class CephClusterFilterSet(NetBoxModelFilterSet):
 
     class Meta:
         model = CephCluster
-        fields = ["name", "site_id"]
+        fields = ["name", "site_id", "kubernetes_cluster", "kubernetes_namespace"]
 
     def search(self, queryset, name, value):
         return queryset.filter(name__icontains=value)

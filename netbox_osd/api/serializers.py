@@ -17,6 +17,8 @@ class CephClusterSerializer(NetBoxModelSerializer):
             "url",
             "display",
             "name",
+            "kubernetes_cluster",
+            "kubernetes_namespace",
             "description",
             "tags",
             "custom_fields",
@@ -45,6 +47,12 @@ class CephOSDSerializer(NetBoxModelSerializer):
             "osd_type",
             "encrypted",
             "status",
+            "disk_path",
+            "serial_number",
+            "capacity_bytes",
+            "osd_uuid",
+            "db_path",
+            "wal_path",
             "description",
             "tags",
             "custom_fields",
@@ -56,7 +64,7 @@ class CephOSDSerializer(NetBoxModelSerializer):
 
 class CephOSDStatusNoteSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(
-        view_name="plugins-api:netbox_osd-api:cephosdsstatusnote-detail"
+        view_name="plugins-api:netbox_osd-api:cephosdstatusnote-detail"
     )
     osd = serializers.PrimaryKeyRelatedField(queryset=CephOSD.objects.all())
 

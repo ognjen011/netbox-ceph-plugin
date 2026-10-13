@@ -77,6 +77,36 @@
               {% badge object.get_status_display bg_color=object.get_status_color %}
             </td>
           </tr>
+          <tr>
+            <th scope="row">Disk path</th>
+            <td>{{ object.disk_path|default:"—" }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Serial number</th>
+            <td>{{ object.serial_number|default:"—" }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Capacity</th>
+            <td>
+              {% if object.capacity_bytes %}
+                <span title="{{ object.capacity_bytes }} bytes">{{ object.capacity_bytes|filesizeformat }}</span>
+              {% else %}
+                <span class="text-muted">—</span>
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">OSD UUID</th>
+            <td>{{ object.osd_uuid|default:"—" }}</td>
+          </tr>
+          <tr>
+            <th scope="row">BlueStore DB path</th>
+            <td>{{ object.db_path|default:"—" }}</td>
+          </tr>
+          <tr>
+            <th scope="row">BlueStore WAL path</th>
+            <td>{{ object.wal_path|default:"—" }}</td>
+          </tr>
         </table>
       </div>
     </div>
@@ -99,7 +129,7 @@
     <div class="card">
       <h5 class="card-header d-flex justify-content-between align-items-center">
         Status Notes
-        <a href="{% url 'plugins:netbox_osd:cephosdsstatusnote_add' %}?osd={{ object.pk }}"
+        <a href="{% url 'plugins:netbox_osd:cephosdstatusnote_add' %}?osd={{ object.pk }}"
            class="btn btn-sm btn-success">
           <i class="mdi mdi-plus-thick"></i> Add Note
         </a>

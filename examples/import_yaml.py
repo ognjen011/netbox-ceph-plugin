@@ -74,6 +74,12 @@ def import_osds(yaml_file: str):
             "osd_type": osd.get("osd_type", "hdd"),
             "encrypted": osd.get("encrypted", False),
             "status": osd.get("status", "active"),
+            "disk_path": osd.get("disk_path", ""),
+            "serial_number": osd.get("serial_number", ""),
+            "capacity_bytes": osd.get("capacity_bytes"),
+            "osd_uuid": osd.get("osd_uuid"),
+            "db_path": osd.get("db_path", ""),
+            "wal_path": osd.get("wal_path", ""),
             "description": osd.get("description", ""),
         })
 

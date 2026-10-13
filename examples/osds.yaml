@@ -9,6 +9,12 @@ osds:
     osd_type: nvme
     encrypted: true
     status: active
+    disk_path: /dev/disk/by-id/nvme-example-drive-01
+    serial_number: EXAMPLE-NVME-01
+    capacity_bytes: 3840000000000
+    osd_uuid: 88ab9018-f84b-4d62-90b4-ce7c076728ff
+    db_path: ""
+    wal_path: ""
     description: ""
 
   - name: osd.1

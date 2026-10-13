@@ -30,6 +30,14 @@
             <td>{{ object.node_count }}</td>
           </tr>
           <tr>
+            <th scope="row">Kubernetes cluster</th>
+            <td>{{ object.kubernetes_cluster|default:"—" }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Kubernetes namespace</th>
+            <td>{{ object.kubernetes_namespace|default:"—" }}</td>
+          </tr>
+          <tr>
             <th scope="row">Total OSDs</th>
             <td>{{ object.osd_count }}</td>
           </tr>

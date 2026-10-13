@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.urls import reverse
 from netbox.models import NetBoxModel
@@ -11,6 +12,14 @@ class CephCluster(NetBoxModel):
     """
 
     name = models.CharField(max_length=100, unique=True)
+    kubernetes_cluster = models.CharField(
+        max_length=253, blank=True,
+        help_text="Name of the Kubernetes cluster hosting this Ceph deployment, if applicable",
+    )
+    kubernetes_namespace = models.CharField(
+        max_length=63, blank=True,
+        help_text="Kubernetes namespace containing the Ceph deployment, e.g. rook-ceph",
+    )
     site = models.ForeignKey(
         to="dcim.Site",
         on_delete=models.SET_NULL,
@@ -21,7 +30,7 @@ class CephCluster(NetBoxModel):
     )
     description = models.TextField(blank=True)
 
-    clone_fields = ["site", "description"]
+    clone_fields = ["site", "kubernetes_cluster", "kubernetes_namespace", "description"]
 
     class Meta:
         ordering = ["name"]
@@ -83,6 +92,31 @@ class CephOSD(NetBoxModel):
         max_length=20,
         choices=OSDStatusChoices,
         default=OSDStatusChoices.ACTIVE,
+    )
+    disk_path = models.CharField(
+        max_length=255, blank=True,
+        help_text="Data device path, preferably a stable /dev/disk/by-id/ path",
+    )
+    serial_number = models.CharField(
+        max_length=100, blank=True,
+        help_text="Serial number of the physical data drive",
+    )
+    capacity_bytes = models.PositiveBigIntegerField(
+        null=True, blank=True, validators=[MinValueValidator(1)],
+        verbose_name="Capacity (bytes)",
+        help_text="Data device capacity in bytes; leave blank if unknown",
+    )
+    osd_uuid = models.UUIDField(
+        null=True, blank=True, verbose_name="OSD UUID",
+        help_text="Ceph OSD FSID (not the cluster FSID)",
+    )
+    db_path = models.CharField(
+        max_length=255, blank=True, verbose_name="DB device path",
+        help_text="Separate BlueStore block.db device or logical volume, if configured",
+    )
+    wal_path = models.CharField(
+        max_length=255, blank=True, verbose_name="WAL device path",
+        help_text="Separate BlueStore block.wal device or logical volume, if configured",
     )
     description = models.TextField(
         blank=True,
@@ -158,7 +192,7 @@ class CephOSDStatusNote(NetBoxModel):
         return f"{self.osd} — {self.get_status_display()} ({self.created:%Y-%m-%d})"
 
     def get_absolute_url(self):
-        return reverse("plugins:netbox_osd:cephosdsstatusnote", args=[self.pk])
+        return reverse("plugins:netbox_osd:cephosdstatusnote", args=[self.pk])
 
     def get_status_color(self):
         return NoteStatusChoices.colors.get(self.status)

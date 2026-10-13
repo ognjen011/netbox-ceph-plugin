@@ -1,4 +1,4 @@
-name,description
-prod-ceph-01,Production Ceph cluster DC-West
-prod-ceph-02,Production Ceph cluster DC-East
-dev-ceph-01,Development / staging cluster
+name,description,kubernetes_cluster,kubernetes_namespace
+prod-ceph-01,Production Ceph cluster DC-West,production-k8s,rook-ceph
+prod-ceph-02,Production Ceph cluster DC-East,,
+dev-ceph-01,Development / staging cluster,,

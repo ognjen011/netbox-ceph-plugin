@@ -35,11 +35,11 @@ menu = PluginMenu(
                     ),
                 ),
                 PluginMenuItem(
-                    link="plugins:netbox_osd:cephosdsstatusnote_list",
+                    link="plugins:netbox_osd:cephosdstatusnote_list",
                     link_text="Status Notes",
                     buttons=(
                         PluginMenuButton(
-                            link="plugins:netbox_osd:cephosdsstatusnote_add",
+                            link="plugins:netbox_osd:cephosdstatusnote_add",
                             title="Add Note",
                             icon_class="mdi mdi-plus-thick",
                         ),

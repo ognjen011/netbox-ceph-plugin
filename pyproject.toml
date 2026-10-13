@@ -17,3 +17,6 @@ netbox_osd = "netbox_osd:config"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["netbox_osd*"]
+
+[tool.setuptools.package-data]
+netbox_osd = ["templates/**/*.html"]

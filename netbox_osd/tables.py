@@ -20,6 +20,8 @@ class CephClusterTable(NetBoxTable):
             "pk",
             "name",
             "site",
+            "kubernetes_cluster",
+            "kubernetes_namespace",
             "node_count",
             "osd_count",
             "tags",
@@ -99,6 +101,12 @@ class CephOSDTable(NetBoxTable):
             "encrypted",
             "status",
             "open_notes",
+            "disk_path",
+            "serial_number",
+            "capacity_bytes",
+            "osd_uuid",
+            "db_path",
+            "wal_path",
             "tags",
             "created",
             "last_updated",
@@ -128,7 +136,7 @@ class CephOSDStatusNoteTable(NetBoxTable):
     osd = tables.Column(linkify=True)
     status = ChoiceFieldColumn()
     resolved = tables.BooleanColumn()
-    tags = TagColumn(url_name="plugins:netbox_osd:cephosdsstatusnote_list")
+    tags = TagColumn(url_name="plugins:netbox_osd:cephosdstatusnote_list")
 
     class Meta(NetBoxTable.Meta):
         model = CephOSDStatusNote

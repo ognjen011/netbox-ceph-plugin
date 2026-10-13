@@ -27,13 +27,17 @@ class CephClusterForm(NetBoxModelForm):
 
     fieldsets = (
         FieldSet("name", "site", name="Cluster"),
+        FieldSet("kubernetes_cluster", "kubernetes_namespace", name="Kubernetes Deployment"),
         FieldSet("description", name="Notes"),
         FieldSet("tags", name="Tags"),
     )
 
     class Meta:
         model = CephCluster
-        fields = ["name", "site", "description", "tags"]
+        fields = [
+            "name", "site", "kubernetes_cluster", "kubernetes_namespace",
+            "description", "tags",
+        ]
 
 
 class CephClusterFilterForm(NetBoxModelFilterSetForm):
@@ -63,6 +67,8 @@ class CephOSDForm(NetBoxModelForm):
 
     fieldsets = (
         FieldSet("cluster", "name", "device", "osd_type", "encrypted", "status", name="OSD"),
+        FieldSet("disk_path", "serial_number", "capacity_bytes", "osd_uuid", name="Storage"),
+        FieldSet("db_path", "wal_path", name="BlueStore"),
         FieldSet("description", name="Notes"),
         FieldSet("tags", name="Tags"),
     )
@@ -76,6 +82,12 @@ class CephOSDForm(NetBoxModelForm):
             "osd_type",
             "encrypted",
             "status",
+            "disk_path",
+            "serial_number",
+            "capacity_bytes",
+            "osd_uuid",
+            "db_path",
+            "wal_path",
             "description",
             "tags",
         ]
@@ -210,9 +222,10 @@ class CephOSDStatusNoteFilterForm(NetBoxModelFilterSetForm):
 
 class CephClusterImportForm(NetBoxModelImportForm):
     """
-    CSV columns: name, site, description
+    CSV columns: name, site, kubernetes_cluster, kubernetes_namespace, description
 
     - site: exact site slug (optional)
+    - kubernetes_cluster, kubernetes_namespace: optional deployment location
 
     Example:
         name,site,description
@@ -229,7 +242,9 @@ class CephClusterImportForm(NetBoxModelImportForm):
 
     class Meta:
         model = CephCluster
-        fields = ["name", "site", "description"]
+        fields = [
+            "name", "site", "kubernetes_cluster", "kubernetes_namespace", "description",
+        ]
 
 
 class CephOSDImportForm(NetBoxModelImportForm):
@@ -241,6 +256,8 @@ class CephOSDImportForm(NetBoxModelImportForm):
     - osd_type: hdd | ssd | nvme
     - encrypted: true | false
     - status  : active | down | out | destroyed
+    - Optional storage columns: disk_path, serial_number, capacity_bytes,
+      osd_uuid, db_path, wal_path. Capacity is an integer number of bytes.
 
     Example:
         name,cluster,device,osd_type,encrypted,status,description
@@ -271,7 +288,11 @@ class CephOSDImportForm(NetBoxModelImportForm):
 
     class Meta:
         model = CephOSD
-        fields = ["cluster", "name", "device", "osd_type", "encrypted", "status", "description"]
+        fields = [
+            "cluster", "name", "device", "osd_type", "encrypted", "status",
+            "disk_path", "serial_number", "capacity_bytes", "osd_uuid",
+            "db_path", "wal_path", "description",
+        ]
 
 
 class CephOSDStatusNoteImportForm(NetBoxModelImportForm):

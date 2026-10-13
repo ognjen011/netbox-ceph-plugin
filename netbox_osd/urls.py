@@ -37,17 +37,17 @@ urlpatterns = [
     ),
 
     # ── CephOSDStatusNote ─────────────────────────────────────────────────────
-    path("notes/", views.CephOSDStatusNoteListView.as_view(), name="cephosdsstatusnote_list"),
-    path("notes/add/", views.CephOSDStatusNoteEditView.as_view(), name="cephosdsstatusnote_add"),
-    path("notes/import/", views.CephOSDStatusNoteImportView.as_view(), name="cephosdsstatusnote_import"),
-    path("notes/delete/", views.CephOSDStatusNoteBulkDeleteView.as_view(), name="cephosdsstatusnote_bulk_delete"),
-    path("notes/<int:pk>/", views.CephOSDStatusNoteView.as_view(), name="cephosdsstatusnote"),
-    path("notes/<int:pk>/edit/", views.CephOSDStatusNoteEditView.as_view(), name="cephosdsstatusnote_edit"),
-    path("notes/<int:pk>/delete/", views.CephOSDStatusNoteDeleteView.as_view(), name="cephosdsstatusnote_delete"),
+    path("notes/", views.CephOSDStatusNoteListView.as_view(), name="cephosdstatusnote_list"),
+    path("notes/add/", views.CephOSDStatusNoteEditView.as_view(), name="cephosdstatusnote_add"),
+    path("notes/import/", views.CephOSDStatusNoteImportView.as_view(), name="cephosdstatusnote_import"),
+    path("notes/delete/", views.CephOSDStatusNoteBulkDeleteView.as_view(), name="cephosdstatusnote_bulk_delete"),
+    path("notes/<int:pk>/", views.CephOSDStatusNoteView.as_view(), name="cephosdstatusnote"),
+    path("notes/<int:pk>/edit/", views.CephOSDStatusNoteEditView.as_view(), name="cephosdstatusnote_edit"),
+    path("notes/<int:pk>/delete/", views.CephOSDStatusNoteDeleteView.as_view(), name="cephosdstatusnote_delete"),
     path(
         "notes/<int:pk>/changelog/",
         ObjectChangeLogView.as_view(),
-        name="cephosdsstatusnote_changelog",
+        name="cephosdstatusnote_changelog",
         kwargs={"model": CephOSDStatusNote},
     ),
 ]
