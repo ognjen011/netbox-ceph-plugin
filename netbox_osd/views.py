@@ -1,7 +1,7 @@
 from django.db.models import Count
 from django_tables2 import RequestConfig
 from netbox.views import generic
-from utilities.views import register_model_view
+from utilities.views import ViewTab, register_model_view
 from dcim.models import Device
 
 from .filtersets import CephClusterFilterSet, CephOSDFilterSet, CephOSDStatusNoteFilterSet
@@ -19,6 +19,30 @@ from .forms import (
 )
 from .models import CephCluster, CephOSD, CephOSDStatusNote
 from .tables import CephClusterTable, ClusterNodeTable, CephOSDTable, CephOSDStatusNoteTable
+
+
+@register_model_view(Device, "ceph_osds", path="ceph-osds")
+class DeviceCephOSDsView(generic.ObjectChildrenView):
+    queryset = Device.objects.all()
+    child_model = CephOSD
+    table = CephOSDTable
+    filterset = CephOSDFilterSet
+    actions = ()
+    additional_permissions = ("netbox_osd.view_cephosd",)
+    tab = ViewTab(
+        label="Ceph OSDs",
+        badge=lambda device: device.ceph_osds.count(),
+        permission="netbox_osd.view_cephosd",
+        weight=590,
+    )
+
+    def get_children(self, request, parent):
+        return (
+            CephOSD.objects.restrict(request.user, "view")
+            .filter(device=parent)
+            .select_related("cluster", "device__rack", "device__site")
+            .prefetch_related("tags")
+        )
 
 
 # ─── CephCluster ──────────────────────────────────────────────────────────────

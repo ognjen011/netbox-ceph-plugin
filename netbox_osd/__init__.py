@@ -11,5 +11,10 @@ class NetBoxOSDConfig(PluginConfig):
     min_version = "4.0.0"
     default_settings = {}
 
+    def ready(self):
+        super().ready()
+        # Register the Device tab before NetBox builds its core URL patterns.
+        from . import views  # noqa: F401
+
 
 config = NetBoxOSDConfig

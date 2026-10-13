@@ -7,6 +7,7 @@ A NetBox plugin for tracking Ceph OSDs across your storage infrastructure.
 - **CephOSD** — track each OSD by name (`osd.0`, `osd.42`), host device, type (HDD / SSD / NVMe), encryption status, and current state (Active / Down / Out / Destroyed)
 - **CephOSDStatusNote** — append structured notes whenever an OSD changes state; record the reason and mark it resolved when the issue is cleared
 - **Device page integration** — a Ceph OSDs panel is automatically injected into every NetBox Device detail page
+- **Device OSD tab** — open a device's **Ceph OSDs** tab to see only the OSDs assigned to that node
 - **Rack & Site** derived automatically from the host device — no duplication
 - **Full REST API** under `/api/plugins/osd/`
 - **Tags, custom fields, change log, journaling** — all inherited from NetBox's own object model
@@ -74,3 +75,7 @@ POST /api/plugins/osd/notes/
 ```
 
 Supports the same filtering, pagination, and authentication as all NetBox API endpoints.
+
+## License
+
+Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) for the full text.
