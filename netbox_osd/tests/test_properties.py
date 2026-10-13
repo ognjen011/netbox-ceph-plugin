@@ -110,6 +110,26 @@ class PropertiesTestCase(TestCase):
         self.assertTrue(form.is_valid(), form.errors)
         self.assertIsNone(form.save().osd_uuid)
 
+    def test_encryption_dropdown_renders_and_saves_both_values(self):
+        osd = CephOSD.objects.create(name="osd.42", device=self.device)
+        path = osd.get_absolute_url() + "edit/"
+        response = self.client.get(path)
+        self.assertContains(response, '<select name="encrypted"')
+        self.assertContains(response, '>Yes</option>')
+        self.assertContains(response, '>No</option>')
+        self.assertNotContains(response, '<input type="checkbox" name="encrypted"')
+        for encrypted in (True, False):
+            with self.subTest(encrypted=encrypted):
+                response = self.client.post(path, {
+                    "name": osd.name, "device": self.device.pk,
+                    "osd_type": "hdd", "status": "active", "encrypted": str(encrypted),
+                })
+                self.assertEqual(response.status_code, 302, response.content)
+                osd.refresh_from_db()
+                self.assertEqual(osd.encrypted, encrypted)
+                response = self.client.get(osd.get_absolute_url())
+                self.assertContains(response, 'mdi-lock"' if encrypted else 'mdi-lock-open-outline"')
+
     def test_model_capacity_validation(self):
         for capacity in (-1, 0):
             with self.subTest(capacity=capacity):

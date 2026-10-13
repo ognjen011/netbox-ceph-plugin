@@ -54,6 +54,12 @@ class CephClusterFilterForm(NetBoxModelFilterSetForm):
 # ─── CephOSD ──────────────────────────────────────────────────────────────────
 
 class CephOSDForm(NetBoxModelForm):
+    encrypted = forms.TypedChoiceField(
+        choices=((True, "Yes"), (False, "No")),
+        coerce=lambda value: value == "True",
+        initial=False,
+        help_text="Is this OSD encrypted at rest?",
+    )
     cluster = DynamicModelChoiceField(
         queryset=CephCluster.objects.all(),
         required=False,
